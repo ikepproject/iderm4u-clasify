@@ -6,11 +6,6 @@ const cors = require("cors");
 const axios = require("axios");
 const https = require("https");
 
-const options = {
-  key: fs.readFileSync("key.pem"),
-  cert: fs.readFileSync("cert.pem"),
-};
-
 const app = express();
 app.use(express.json());
 // app.use((req, res, next) => {
@@ -32,6 +27,11 @@ async function loadModel() {
 }
 
 loadModel();
+
+const privateKey = fs.readFileSync("key.pem", "utf8");
+const certificate = fs.readFileSync("cert.pem", "utf8");
+
+const credentials = { key: privateKey, cert: certificate };
 
 app.use("/images", express.static(__dirname + "/public/images"));
 
@@ -69,8 +69,8 @@ function getClass(index) {
 
 app.use(express.static(__dirname + "/public"));
 
-const PORT = process.env.PORT || 3000;
+const httpsServer = https.createServer(credentials, app);
 
-https.createServer(options, app).listen(PORT, () => {
-  console.log(`Server started at port ${PORT}`);
+httpsServer.listen(443, () => {
+  console.log("HTTPS Server running on port 443");
 });
