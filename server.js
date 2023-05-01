@@ -3,6 +3,7 @@ const tf = require('@tensorflow/tfjs-node');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
+const axios = require("axios");
 
 const app = express();
 
@@ -30,8 +31,8 @@ app.use('/images', express.static(__dirname + '/public/images'));
 
 app.post('/classify', async (req, res) => {
   try {
-    const imgPath = path.join(__dirname, 'public', 'images', req.body.imageName);
-    const imageBuffer = fs.readFileSync(imgPath);
+    const response = await axios.get(req.body.imageUrl, { responseType: 'arraybuffer' });
+	const imageBuffer = Buffer.from(response.data, "binary");
     const tfimage = tf.node.decodeImage(imageBuffer);
     const tfresized = tf.image.resizeBilinear(tfimage, [224, 224]);
     const tfexpanded = tfresized.expandDims(0);
