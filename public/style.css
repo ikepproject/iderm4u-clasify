@@ -1,0 +1,17 @@
+.diagnose-img {
+  width: 200px;
+  cursor: pointer;
+  margin: 10px;
+  border: 2px solid transparent;
+}
+
+.diagnose-img.selected {
+  border-color: red;
+}
+
+#image-preview {
+  width: 200px;
+  margin: 10px;
+  border: 2px solid black;
+  display: block;
+}

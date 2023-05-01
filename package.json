@@ -1,0 +1,16 @@
+{
+  "name": "iderm4u-clasify",
+  "version": "1.0.0",
+  "description": "Nodejs Clasify Skin Diases v1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "IKE Project",
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^4.4.0",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}
