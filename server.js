@@ -4,6 +4,12 @@ const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
 const axios = require("axios");
+const https = require("https");
+
+const options = {
+  key: fs.readFileSync("key.pem"),
+  cert: fs.readFileSync("cert.pem"),
+};
 
 const app = express();
 app.use(express.json());
@@ -65,6 +71,6 @@ app.use(express.static(__dirname + "/public"));
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+https.createServer(options, app).listen(PORT, () => {
   console.log(`Server started at port ${PORT}`);
 });
