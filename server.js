@@ -35,7 +35,7 @@ const privateKey = fs.readFileSync(
   "utf8"
 );
 const certificate = fs.readFileSync(
-  "/etc/letsencrypt/live/classifier.iderm4u.com/fullchain.pem",
+  "/etc/letsencrypt/live/clasifier.iderm4u.com/privkey.pem",
   "utf8"
 );
 
