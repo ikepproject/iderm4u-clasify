@@ -1,35 +1,28 @@
 const express = require("express");
 const tf = require("@tensorflow/tfjs-node");
 const fs = require("fs");
-const path = require("path");
 const cors = require("cors");
 const axios = require("axios");
 const https = require("https");
 
 const app = express();
 app.use(express.json());
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-//   next();
-// });
 app.use(cors());
+
 const MODEL_PATH = "model/model.json";
 let model;
 
 async function loadModel() {
-  model = await tf.loadLayersModel("file://" + MODEL_PATH);
-  console.log("Model loaded successfully");
+  try {
+    model = await tf.loadLayersModel("file://" + MODEL_PATH);
+    console.log("Model loaded successfully");
+  } catch (error) {
+    console.error("Error loading model:", error);
+  }
 }
 
 loadModel();
 
-// const privateKey = fs.readFileSync("key.pem", "utf8");
-// const certificate = fs.readFileSync("cert.pem", "utf8");
 const privateKey = fs.readFileSync(
   "/etc/letsencrypt/live/clasifier.iderm4u.com/privkey.pem",
   "utf8"
@@ -38,16 +31,17 @@ const certificate = fs.readFileSync(
   "/etc/letsencrypt/live/clasifier.iderm4u.com/fullchain.pem",
   "utf8"
 );
-
 const credentials = { key: privateKey, cert: certificate };
 
 app.use("/images", express.static(__dirname + "/public/images"));
 
 app.post("/classify", async (req, res) => {
   try {
+    console.log("Image URL:", req.body.imageUrl);
     const response = await axios.get(req.body.imageUrl, {
       responseType: "arraybuffer",
     });
+    console.log("Content-Type:", response.headers["content-type"]);
     const imageBuffer = Buffer.from(response.data, "binary");
     const tfimage = tf.node.decodeImage(imageBuffer);
     const tfresized = tf.image.resizeBilinear(tfimage, [224, 224]);
@@ -64,14 +58,14 @@ app.post("/classify", async (req, res) => {
       }));
 
     res.send(top3);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.error("Error during classification:", error.message);
     res.sendStatus(500);
   }
 });
 
 function getClass(index) {
-  const classes = require("./model/skin_classes.json");
+  const classes = require("model/skin_classes.json");
   return classes[index];
 }
 
