@@ -28,8 +28,16 @@ async function loadModel() {
 
 loadModel();
 
-const privateKey = fs.readFileSync("key.pem", "utf8");
-const certificate = fs.readFileSync("cert.pem", "utf8");
+// const privateKey = fs.readFileSync("key.pem", "utf8");
+// const certificate = fs.readFileSync("cert.pem", "utf8");
+const privateKey = fs.readFileSync(
+  "/etc/letsencrypt/live/classifier.iderm4u.com/privkey.pem",
+  "utf8"
+);
+const certificate = fs.readFileSync(
+  "/etc/letsencrypt/live/classifier.iderm4u.com/fullchain.pem",
+  "utf8"
+);
 
 const credentials = { key: privateKey, cert: certificate };
 
