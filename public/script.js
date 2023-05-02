@@ -4,7 +4,7 @@ $(function () {
       const response = await fetch("/classify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageName: imageElement.id + ".jpg" }),
+        body: JSON.stringify({ imageUrl: imageElement.src }),
       });
       const results = await response.json();
       displayResults(results, imageElement.id);
