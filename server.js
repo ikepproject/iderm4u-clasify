@@ -65,7 +65,7 @@ app.post("/classify", async (req, res) => {
 });
 
 function getClass(index) {
-  const classes = require("model/skin_classes.json");
+  const classes = require("./model/skin_classes.json");
   return classes[index];
 }
 
