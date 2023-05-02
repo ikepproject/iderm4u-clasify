@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Classification with TensorFlow.js</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <h1>Image Classification with TensorFlow.js</h1>
+    <div>
+      <h3>Select an image to classify:</h3>
+		<img id="diagnose1" class="diagnose-img" src="images/diagnose1.jpg" alt="Diagnose 1">
+		<div id="diagnose1-result"></div>
+
+		<img id="diagnose2" class="diagnose-img" src="images/diagnose2.jpg" alt="Diagnose 2">
+		<div id="diagnose2-result"></div>
+
+		<img id="diagnose3" class="diagnose-img" src="images/diagnose3.jpg" alt="Diagnose 3">
+		<div id="diagnose3-result"></div>
+    </div>
+    <div>
+      <img id="image-preview" src="#" alt="Preview Image" style="display:none;">
+    </div>
+    <div>
+      <button type="button" id="classify-btn">Classify</button>
+    </div>
+      <!-- The rest of the index.html -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="script.js"></script>
+  </body>
+</html>
